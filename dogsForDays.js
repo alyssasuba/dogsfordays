@@ -1,7 +1,7 @@
 var logo, arrow, boneB, boneY, boneP, boneG, boneDG
 var germ, aHusky, borderCollie, cairn, chi, greatP, parson, pitbull, pom, poodle, pug, rott, shihTzu, sib, york, lab;
 var centuryGothic, centuryGothicBold;
-var stage = 3;
+var stage = 1;
 var dogData;
 var germNum = 0;
 var germDays = 0;
