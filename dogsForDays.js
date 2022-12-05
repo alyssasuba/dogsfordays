@@ -1,9 +1,7 @@
-//test
-
 var logo, arrow, boneB, boneY, boneP, boneG, boneDG
 var germ, aHusky, borderCollie, cairn, chi, greatP, parson, pitbull, pom, poodle, pug, rott, shihTzu, sib, york, lab;
 var centuryGothic, centuryGothicBold;
-var stage = 7;
+var stage = 3;
 var dogData;
 var germNum = 0;
 var germDays = 0;
@@ -120,6 +118,71 @@ var yorkSizeM = 0;
 var yorkSizeL = 0;
 var germAvgSize, aHuskyAvgSize, yorkAvgSize, pugAvgSize, borderAvgSize, cairnAvgSize, chiAvgSize, labAvgSize, parAvgSize, pitAvgSize, poodAvgSize, shihAvgSize, sibAvgSize, sibAvgSize, greatAvgSize, pomAvgSize;
 var aHuskySizeToy = 0;
+var germAvgAge, aHuskyAvgAge, yorkAvgAge, pugAvgAge, borderAvgAge, cairnAvgAge, chiAvgAge, labAvgAge, parAvgAge, pitAvgAge, poodAvgAge, shihAvgAge, sibAvgAge, greatAvgAge, pomAvgAge, rottAvgAge;
+var germAge, aHuskyAge, borderCollieAge, cairnAge, chiAge, greatPAge, parsonAge, pitbullAge, pomAge, poodleAge, pugAge, rottAge, shihTzuAge, sibAge, yorkAge, labAge;
+var dogDaysAvg;
+var dogDays = 0;
+var dogNum = 0;
+var dogSizeToy = 0;
+var dogSizePup = 0;
+var dogSizeS = 0;
+var dogSizeM = 0;
+var dogSizeL = 0;
+var dogAvgSize;
+
+var adoption = 0;
+var died = 0;
+var disposal = 0;
+var euthanized = 0;
+var returned = 0;
+var rtos = 0;
+var transferred = 0;
+
+var healthy = 0;
+var manageable = 0;
+var rehab = 0;
+var unknown = 0;
+var untreatable = 0;
+
+
+var adoptionDog = 0;
+var diedDog = 0;
+var disposalDog = 0;
+var euthanizedDog = 0;
+var returnedDog = 0;
+var rtosDog = 0;
+var transferredDog = 0;
+
+var healthyDog = 0;
+var manageableDog = 0;
+var rehabDog = 0;
+var unknownDog = 0;
+var untreatableDog = 0;
+
+const outerRadius = 95;
+const innerRadius = 55;
+
+const centerX = 804;
+const centerY = 439;
+
+const centerXDog = 1341;
+const centerYDog = 439;
+
+const centerXIC = 804;
+const centerYIC = 803;
+
+const centerXDogIC = 1341;
+const centerYDogIC = 803;
+
+var donutColors = [
+    {'colorPalette' : '#a3a598'},
+    {'colorPalette' : '#353a34'},
+    {'colorPalette' : '#b0b0b0'},
+    {'colorPalette' : '#e8d7cd'},
+    {'colorPalette' : '#CDDDDC'},
+    {'colorPalette' : '#d0a47d'},
+    {'colorPalette' : '#b4c1b8'}
+]
 
 
 
@@ -151,7 +214,6 @@ function preload(){
     sib = loadImage("sib.png");
     york = loadImage("yorkshire.png");
     lab = loadImage("lab.png");
-
 }
 
 function setup(){
@@ -199,11 +261,12 @@ function draw(){
 
     }
 
+    //Charts - Germ
     if (stage == 3){
         textSize(40);
         textAlign(CENTER);
         // Change this once we put the data in
-        text("Chihuahua Average vs. Shelter Average", 293, 212, 1143, 49);
+        text("German Shepard Average vs. Shelter Average", 293, 212, 1143, 49);
         // Add bar graph of the two dogs we're comparing. Hover to see number
         stroke(53, 58, 52);
         strokeWeight(1);
@@ -212,56 +275,138 @@ function draw(){
         noStroke();
         textAlign(CENTER);
         textFont(centuryGothicBold);
-        text("# of days in the shelter", 204, 918, 114, 50);
-        text("Age", 338, 918, 114, 50);
+        text("# of days in the shelter", 204, 918, 114, 80);
+        text("# of dogs", 338, 918, 114, 80);
         text("Size", 472, 918, 114, 50);
-        
-        //donut chart
+
+        //Bar Chart
+        fill(208, 164, 125);
+        rect(224, 893-(germAvg*10), 68, germAvg*10);
+        rect(496, 893-(germAvgSize*30), 68, germAvgSize*30);
+
+        fill(232, 215, 205);
+        rect(224, 893-(dogDaysAvg*10), 68, dogDaysAvg*10);
+        rect(361, 893-(dogNum), 68, dogNum);
+        rect(496, 893-(dogAvgSize*30), 68, dogAvgSize*30);
+
+        fill(208, 164, 125);
+        rect(361, 893-(germNum), 68, germNum);
+
+        donutGermIC();
+        donutDogIC();
+       
         //Outcome type
-
         //Dog we're comparing (change this)
-        noStroke();
-        fill(205, 221, 220);
-        ellipse(804, 439, 300, 300);
+        donutGerm();
+        fill(53, 58, 52);
         textSize(16);
         textFont(centuryGothic);
-        text("Chihuahua", 746, 429, 114, 20);
+        text("German Shepard", 750, 420, 114, 80);
+        text("German Shepard", 750, 785, 114, 80);
+        
 
         //Shelter dogs
-        fill(180, 193, 184);
-        ellipse(1341, 439, 300, 300);
-        textSize(16);
-        textFont(centuryGothic);
-        text("Shelter Dogs", 1283, 429, 114, 20);
-
-        textSize(20);
+        donutDogs();
         fill(53, 58, 52);
-        noStroke();
+        textSize(16);
+        textFont(centuryGothic);
+        text("Shelter dogs", 1305, 420, 80, 40);
+        text("Shelter dogs", 1305, 785, 80, 40);
+
+        //outcome type text
+        textAlign(LEFT);
+        textSize(12);
+        text("Disposed", 1070, 400, 100, 20);
+        text("RTOS", 1070, 420, 100, 20);
+        text("Euthanized", 1070, 440, 100, 20);
+        text("Transfered", 1070, 460, 100, 20);
+        text("Died", 1070, 480, 100, 20);
+        text("Adopted", 1070, 500, 100, 20);
+        text("Returned", 1070, 520, 100, 20);
+
+        //income condition text
+        textAlign(LEFT);
+        textSize(12);
+        text("Healthy", 1070, 800, 100, 20);
+        text("Manageable", 1070, 820, 100, 20);
+        text("Rehab", 1070, 840, 100, 20);
+        text("Unknown", 1070, 860, 100, 20);
+        text("Untreatable", 1070, 880, 100, 20);
+        
+        // outcome type legend
+        fill(donutColors[0].colorPalette);
+        rect(1050, 400, 15, 15);
+        fill(donutColors[1].colorPalette);
+        rect(1050, 420, 15, 15);
+        fill(donutColors[2].colorPalette);
+        rect(1050, 440, 15, 15);
+        fill(donutColors[3].colorPalette);
+        rect(1050, 460, 15, 15);
+        fill(donutColors[4].colorPalette);
+        rect(1050, 480, 15, 15);
+        fill(donutColors[5].colorPalette);
+        rect(1050, 500, 15, 15);
+        fill(donutColors[6].colorPalette);
+        rect(1050, 520, 15, 15);
+
+         // intake condition legend
+         fill(donutColors[0].colorPalette);
+         rect(1050, 800, 15, 15);
+         fill(donutColors[1].colorPalette);
+         rect(1050, 820, 15, 15);
+         fill(donutColors[2].colorPalette);
+         rect(1050, 840, 15, 15);
+         fill(donutColors[3].colorPalette);
+         rect(1050, 860, 15, 15);
+         fill(donutColors[4].colorPalette);
+         rect(1050, 880, 15, 15);
+
         textAlign(CENTER);
-        textFont(centuryGothicBold);
-        text("Outcome Type", 1008, 395, 114, 50);
-
-        //Intake Condition
-         //Dog we're comparing (change this)
-        fill(205, 221, 220);
-        ellipse(804, 803, 300, 300);
         textSize(16);
-        textFont(centuryGothic);
-        text("Chihuahua", 1283, 793, 114, 20);
-
-        //Shelter dogs
-        fill(180, 193, 184);
-        ellipse(1341, 803, 300, 300);
-        textSize(16);
-        textFont(centuryGothic);
-        text("Shelter Dogs", 1283, 793, 114, 20);
-
-        textSize(20);
         fill(53, 58, 52);
-        noStroke();
-        textAlign(CENTER);
         textFont(centuryGothicBold);
-        text("Intake Condition", 1008, 758, 114, 50);
+        text("Outcome Type", 1000, 350, 150, 20);
+        text("Intake Condition", 1000, 750, 150, 20);
+       
+        
+        // fill(0);
+        // textAlign(CENTER);
+        // text("June 2016", width/2, 225);
+        // text("Cambridge, Massachusetts", width/2, 355);
+
+        // //Shelter dogs
+        // fill(180, 193, 184);
+        // ellipse(1341, 439, 300, 300);
+        // textSize(16);
+        // textFont(centuryGothic);
+        // text("Shelter Dogs", 1283, 429, 114, 20);
+
+        // textSize(20);
+        // fill(53, 58, 52);
+        // noStroke();
+        
+
+        // //Intake Condition
+        //  //Dog we're comparing (change this)
+        // fill(205, 221, 220);
+        // ellipse(804, 803, 300, 300);
+        // textSize(16);
+        // textFont(centuryGothic);
+        // text("(this breed)", 1283, 793, 114, 20);
+
+        // //Shelter dogs
+        // fill(180, 193, 184);
+        // ellipse(1341, 803, 300, 300);
+        // textSize(16);
+        // textFont(centuryGothic);
+        // text("Shelter Dogs", 1283, 793, 114, 20);
+
+        // textSize(20);
+        // fill(53, 58, 52);
+        // noStroke();
+        // textAlign(CENTER);
+        // textFont(centuryGothicBold);
+        // text("Intake Condition", 1008, 758, 114, 50);
 
         //Learn more button
         textSize(20);
@@ -377,7 +522,68 @@ function mouseClicked(){
     else if(stage == 8 && mouseX>1544 && mouseX<1601 && mouseY>833 && mouseY<855){
         stage = 4;
     }
-    else if(stage == 2 && mouseX>870 && mouseX<970 && mouseY>660 && mouseY<760){
+    //Chihuahua
+    else if(stage == 2 && mouseX>chiAvg*45 && mouseX<((chiAvg*45)+(1.16*chiNum)) && mouseY>(1000-(125*chiAvgSize)) && mouseY<((1000-(125*chiAvgSize))+(1*chiNum))){
+        stage = 3;
+    }
+    //German
+    else if(stage == 2 && mouseX>germAvg*45 && mouseX<((germAvg*45)+(3.02*germNum)) && mouseY>(1000-(125*germAvgSize)) && mouseY<((1000-(125*germAvgSize))+(2*germNum))){
+        stage = 3;
+    }
+    //Alaskan Husky
+    else if(stage == 2 && mouseX>aHuskyAvg*45 && mouseX<((aHuskyAvg*45)+(2.48*aHuskyNum)) && mouseY>(1000-(125*aHuskyAvgSize)) && mouseY<((1000-(125*aHuskyAvgSize))+(2*aHuskyNum))){
+        stage = 3;
+    }
+    //GreatP
+    else if(stage == 2 && mouseX>greatAvg*45 && mouseX<((greatAvg*45)+(2.42*greatNum)) && mouseY>(1000-(125*greatAvgSize)) && mouseY<((1000-(125*greatAvgSize))+(2*greatNum))){
+        stage = 3;
+    }
+    //pitbull
+    else if(stage == 2 && mouseX>pitAvg*45 && mouseX<((pitAvg*45)+(2.80*pitNum)) && mouseY>(1000-(125*pitAvgSize)) && mouseY<((1000-(125*pitAvgSize))+(2*pitNum))){
+        stage = 3;
+    }
+    //Pom
+    else if(stage == 2 && mouseX>pomAvg*45 && mouseX<((pomAvg*45)+(2.00*pomNum)) && mouseY>(1000-(125*pomAvgSize)) && mouseY<((1000-(125*pomAvgSize))+(2*pomNum))){
+        stage = 3;
+    }
+    //poodle
+    else if(stage == 2 && mouseX>poodAvg*45 && mouseX<((poodAvg*45)+(1.62*poodNum)) && mouseY>(1000-(125*poodAvgSize)) && mouseY<((1000-(125*poodAvgSize))+(2*poodNum))){
+        stage = 3;
+    }
+    //Pug
+    else if(stage == 2 && mouseX>pugAvg*45 && mouseX<((pugAvg*45)+(2.06*pugNum)) && mouseY>(1000-(125*pugAvgSize)) && mouseY<((1000-(125*pugAvgSize))+(2*pugNum))){
+        stage = 3;
+    }
+    //Rott
+    else if(stage == 2 && mouseX>rottAvg*45 && mouseX<((rottAvg*45)+(2.56*rottNum)) && mouseY>(1000-(125*rottAvgSize)) && mouseY<((1000-(125*rottAvgSize))+(2*rottNum))){
+        stage = 3;
+    }
+    //ShihTzu
+    else if(stage == 2 && mouseX>shihAvg*45 && mouseX<((shihAvg*45)+(2.4*shihNum)) && mouseY>(1000-(125*shihAvgSize)) && mouseY<((1000-(125*shihAvgSize))+(2*shihNum))){
+        stage = 3;
+    }
+    //Sib
+    else if(stage == 2 && mouseX>sibAvg*45 && mouseX<((sibAvg*45)+(2.48*sibNum)) && mouseY>(1000-(125*sibAvgSize)) && mouseY<((1000-(125*sibAvgSize))+(2*sibNum))){
+        stage = 3;
+    }
+    //York
+    else if(stage == 2 && mouseX>yorkAvg*45 && mouseX<((yorkAvg*45)+(1.94*yorkNum)) && mouseY>(1000-(125*yorkAvgSize)) && mouseY<((1000-(125*yorkAvgSize))+(2*yorkNum))){
+        stage = 3;
+    }
+    //Lab
+    else if(stage == 2 && mouseX>labAvg*45 && mouseX<((labAvg*45)+(2.48*labNum)) && mouseY>(1000-(125*labAvgSize)) && mouseY<((1000-(125*labAvgSize))+(2*labNum))){
+        stage = 3;
+    }
+    //Collie
+    else if(stage == 2 && mouseX>borderAvg*45 && mouseX<((borderAvg*45)+(2.64*borderNum)) && mouseY>(1000-(125*borderAvgSize)) && mouseY<((1000-(125*borderAvgSize))+(2*borderNum))){
+        stage = 3;
+    }
+    //Cairn
+    else if(stage == 2 && mouseX>cairnAvg*45 && mouseX<((cairnAvg*45)+(2.32*cairnNum)) && mouseY>(1000-(125*cairnAvgSize)) && mouseY<((1000-(125*cairnAvgSize))+(2*cairnNum))){
+        stage = 3;
+    }
+    //Parson
+    else if(stage == 2 && mouseX>parAvg*45 && mouseX<((parAvg*45)+(2.32*parNum)) && mouseY>(1000-(125*parAvgSize)) && mouseY<((1000-(125*parAvgSize))+(2*parNum))){
         stage = 3;
     }
     else if(stage == 3 && mouseX>1572 && mouseX<1629 && mouseY>615 && mouseY<637){
@@ -394,12 +600,76 @@ function countDog(){
     for(var i=0; i<999; i++){
         var breed =  dogData[i].breed;
         var size = dogData[i].size;
-        
+        var type = dogData[i].type;
+        var outcomeType = dogData[i].outcome_type;
+        var intakeCondition = dogData[i].intake_condition;
+
+        if(String(type)=="DOG"){
+            dogDays += int(dogData[i].days_in_shelter);
+            
+            if(size == "TOY"){
+                dogSizeToy++;
+            }
+            if(size == "PUPPY"){
+                dogSizePup += 2;
+            }
+            if(size == "SMALL"){
+                dogSizeS += 3;
+            }
+            if(size == "MED"){
+                dogSizeM += 4;
+            }
+            if(size == "LARGE"){
+                dogSizeL += 5;
+            }
+            
+            if(outcomeType == "ADOPTION"){
+                adoptionDog++;
+            }
+            if(outcomeType == "DIED"){
+                diedDog++;
+            }
+            if(outcomeType == "DISPOSAL"){
+                disposalDog++;
+            }
+            if(outcomeType == "EUTHANIZE"){
+                euthanizedDog++;
+            }
+            if(outcomeType == "RETURN TO OWNER"){
+                returnedDog++;
+            }
+            if(outcomeType == "RTOS"){
+                rtosDog++;
+            }
+            if(outcomeType == "TRANSFER"){
+                transferredDog++;
+            } 
+
+            if(intakeCondition == "HEALTHY"){
+                healthyDog++;
+            }
+            if(intakeCondition == "TREATABLE/MANAGEABLE"){
+                manageableDog++;
+            }
+            if(intakeCondition == "TREATABLE/REHAB"){
+                rehabDog++;
+            }
+            if(intakeCondition == "UNKNOWN"){
+                unknownDog++;
+            }
+            if(intakeCondition == "UNTREATABLE"){
+                untreatableDog++;
+            }
+
+
+            dogAvgSize = (dogSizeToy + dogSizePup + dogSizeS + dogSizeM + dogSizeL) / dogNum;
+
+            dogNum = adoptionDog + diedDog + disposalDog + euthanizedDog + returnedDog + rtosDog + transferredDog;
+            dogDaysAvg = dogDays / dogNum;
+        }
 
         if(String(breed).includes("GERM")){
-            germNum++;
-            germDays += int(dogData[i].days_in_shelter);
-            germAvg = germDays / germNum;
+            
             if(size == "TOY"){
                 germSizeToy++;
             }
@@ -416,6 +686,49 @@ function countDog(){
                 germSizeL += 5;
             }
             germAvgSize = (germSizeToy + germSizePup + germSizeS + germSizeM + germSizeL) / germNum;
+
+            if(outcomeType == "ADOPTION"){
+                adoption++;
+            }
+            if(outcomeType == "DIED"){
+                died++;
+            }
+            if(outcomeType == "DISPOSAL"){
+                disposal++;
+            }
+            if(outcomeType == "EUTHANIZE"){
+                euthanized++;
+            }
+            if(outcomeType == "RETURN TO OWNER"){
+                returned++;
+            }
+            if(outcomeType == "RTOS"){
+                rtos++;
+            }
+            if(outcomeType == "TRANSFER"){
+                transferred++;
+            } 
+
+            if(intakeCondition == "HEALTHY"){
+                healthy++;
+            }
+            if(intakeCondition == "TREATABLE/MANAGEABLE"){
+                manageable++;
+            }
+            if(intakeCondition == "TREATABLE/REHAB"){
+                rehab++;
+            }
+            if(intakeCondition == "UNKNOWN"){
+                unknown++;
+            }
+            if(intakeCondition == "UNTREATABLE"){
+                untreatable++;
+            }
+
+
+            germNum = adoption + died + disposal + euthanized + returned + rtos + transferred;
+            germDays += int(dogData[i].days_in_shelter);
+            germAvg = germDays / germNum;
         }
        
         if(String(breed).includes("ALASKAN")){
@@ -462,7 +775,7 @@ function countDog(){
             yorkAvgSize = (yorkSizeToy + yorkSizePup + yorkSizeS + yorkSizeM + yorkSizeL) / yorkNum;
         }
        
-        if(String(breed).includes( "PUG")){
+        if(String(breed).includes("PUG")){
             pugNum++;
             pugDays += int(dogData[i].days_in_shelter);
             pugAvg = pugDays / pugNum;
@@ -484,7 +797,7 @@ function countDog(){
             pugAvgSize = (pugSizeToy + pugSizePup + pugSizeS + pugSizeM + pugSizeL) / pugNum;
         }
        
-        if(String(breed).includes( "BORDER")){
+        if(String(breed).includes("BORDER")){
             borderNum++;
             borderDays += int(dogData[i].days_in_shelter);
             borderAvg = borderDays / borderNum;
@@ -548,6 +861,7 @@ function countDog(){
                 chiSizeL += 5;
             }
             chiAvgSize = (chiSizeToy + chiSizePup + chiSizeS + chiSizeM + chiSizeL) / chiNum;
+            
         }
        
         if(String(breed).includes( "LAB")){
@@ -877,7 +1191,27 @@ function countDog(){
     console.log(pomSizeM);
     console.log(pomSizeL);
     console.log(pomAvgSize);
+    console.log("Average number of days dogs are in the shelter is " + dogDaysAvg);
+    console.log("Number of total dogs is " + dogNum);
+    console.log("Average size of dog is " + dogAvgSize);
+
+    console.log("Number of germ adopted" + adoption);
+    console.log("Number of germ died" + died);
+    console.log("Number of germ disposed" + disposal);
+    console.log("Number of germ euthanized" + euthanized);
+    console.log("Number of germ returned" + returned);
+    console.log("Number of germ rtos" + rtos);
+    console.log("Number of germ transferred" + transferred);   
     
+    console.log("Number of dogs adopted " + adoptionDog);
+    console.log("Number of dogs died" + diedDog);
+    console.log("Number of dogs disposed" + disposalDog);
+    console.log("Number of dogs euthanized" + euthanizedDog);
+    console.log("Number of dogs returned" + returnedDog);
+    console.log("Number of dogs rtos" + rtosDog);
+    console.log("Number of dogs transferred" + transferredDog); 
+
+    console.log("Number of healthy germ " + healthy);
 }
 
 function dogChart(){
@@ -898,8 +1232,189 @@ function dogChart(){
     image(borderCollie, borderAvg*45,  1000-(125*borderAvgSize), 2.64*borderNum, 2*borderNum);
     image(cairn, cairnAvg*45, 1000-(125*cairnAvgSize), 2.32*cairnNum, 2*cairnNum);
     image(parson, parAvg*45,  1000-(125*parAvgSize), 2.32*parNum, 2*parNum);
+}
 
+//http://alpha.editor.p5js.org/fry/sketches/rJ9VJmaYx
+function donutGerm(){
+    //donut chart
+    //outcome
 
+    noStroke();
+  ellipseMode(RADIUS);
+  var angleStart1 = -HALF_PI;
+  var angleStart2 = -HALF_PI;
+  var angleStart3 = -HALF_PI;
+  var angleStart4 = -HALF_PI;
+  var angleStart5 = -HALF_PI;
+  var angleStart6 = -HALF_PI;
+  var angleStart7 = -HALF_PI;
+  for (var c = 0; c < 7; c++) {
+    fill(donutColors[c].colorPalette);
+    var wedgeSize1 = map(adoption, 0, germNum, 0, TAU);
+    var wedgeSize2 = map(died, 0, germNum, 0, TAU);
+    var wedgeSize3 = map(disposal, 0, germNum, 0, TAU);
+    var wedgeSize4 = map(euthanized, 0, germNum, 0, TAU);
+    var wedgeSize5 = map(returned, 0, germNum, 0, TAU);
+    var wedgeSize6 = map(rtos, 0, germNum, 0, TAU);
+    var wedgeSize7 = map(transferred, 0, germNum, 0, TAU);
+    var angleStop1 = angleStart1 + wedgeSize1;
+    var angleStop2 = angleStart2 + wedgeSize2;
+    var angleStop3 = angleStart3 + wedgeSize3;
+    var angleStop4 = angleStart4 + wedgeSize4;
+    var angleStop5 = angleStart5 + wedgeSize5;
+    var angleStop6 = angleStart6 + wedgeSize6;
+    var angleStop7 = angleStart7 + wedgeSize7;
+    arc(centerX, centerY, outerRadius, outerRadius, angleStart1, angleStop1);
+    arc(centerX, centerY, outerRadius, outerRadius, angleStart2, angleStop2);
+    arc(centerX, centerY, outerRadius, outerRadius, angleStart3, angleStop3);
+    arc(centerX, centerY, outerRadius, outerRadius, angleStart4, angleStop4);
+    arc(centerX, centerY, outerRadius, outerRadius, angleStart5, angleStop5);
+    arc(centerX, centerY, outerRadius, outerRadius, angleStart6, angleStop6);
+    arc(centerX, centerY, outerRadius, outerRadius, angleStart7, angleStop7);
+    angleStart1 = angleStop7;
+    angleStart2 = angleStop1;
+    angleStart3 = angleStop2;
+    angleStart4 = angleStop3;
+    angleStart5 = angleStop4;
+    angleStart6 = angleStop5;
+    angleStart7 = angleStop6;
+  }
+  // knock a hole out of the middle
+  fill(252, 249, 244);
+  ellipse(centerX, centerY, innerRadius, innerRadius);
+}
+
+function donutGermIC(){
+    noStroke();
+    ellipseMode(RADIUS);
+    var angleStart1 = -HALF_PI;
+    var angleStart2 = -HALF_PI;
+    var angleStart3 = -HALF_PI;
+    var angleStart4 = -HALF_PI;
+    var angleStart5 = -HALF_PI;
+
+    for (var c = 0; c < 5; c++) {
+      fill(donutColors[c].colorPalette);
+      var wedgeSize1 = map(healthy, 0, germNum, 0, TAU);
+      var wedgeSize2 = map(manageable, 0, germNum, 0, TAU);
+      var wedgeSize3 = map(rehab, 0, germNum, 0, TAU);
+      var wedgeSize4 = map(unknown, 0, germNum, 0, TAU);
+      var wedgeSize5 = map(untreatable, 0, germNum, 0, TAU);
+
+      var angleStop1 = angleStart1 + wedgeSize1;
+      var angleStop2 = angleStart2 + wedgeSize2;
+      var angleStop3 = angleStart3 + wedgeSize3;
+      var angleStop4 = angleStart4 + wedgeSize4;
+      var angleStop5 = angleStart5 + wedgeSize5;
+
+      arc(centerXIC, centerYIC, outerRadius, outerRadius, angleStart1, angleStop1);
+      arc(centerXIC, centerYIC, outerRadius, outerRadius, angleStart2, angleStop2);
+      arc(centerXIC, centerYIC, outerRadius, outerRadius, angleStart3, angleStop3);
+      arc(centerXIC, centerYIC, outerRadius, outerRadius, angleStart4, angleStop4);
+      arc(centerXIC, centerYIC, outerRadius, outerRadius, angleStart5, angleStop5);
+
+      angleStart1 = angleStop5;
+      angleStart2 = angleStop1;
+      angleStart3 = angleStop2;
+      angleStart4 = angleStop3;
+      angleStart5 = angleStop4;
+    }
+
+    fill(252, 249, 244);
+  ellipse(centerXIC, centerYIC, innerRadius, innerRadius);
 
 }
+
+function donutDogIC(){
+    noStroke();
+    ellipseMode(RADIUS);
+    var angleStart1 = -HALF_PI;
+    var angleStart2 = -HALF_PI;
+    var angleStart3 = -HALF_PI;
+    var angleStart4 = -HALF_PI;
+    var angleStart5 = -HALF_PI;
+
+    for (var c = 0; c < 5; c++) {
+      fill(donutColors[c].colorPalette);
+      var wedgeSize1 = map(healthyDog, 0, dogNum, 0, TAU);
+      var wedgeSize2 = map(manageableDog, 0, dogNum, 0, TAU);
+      var wedgeSize3 = map(rehabDog, 0, dogNum, 0, TAU);
+      var wedgeSize4 = map(unknownDog, 0, dogNum, 0, TAU);
+      var wedgeSize5 = map(untreatableDog, 0, dogNum, 0, TAU);
+
+      var angleStop1 = angleStart1 + wedgeSize1;
+      var angleStop2 = angleStart2 + wedgeSize2;
+      var angleStop3 = angleStart3 + wedgeSize3;
+      var angleStop4 = angleStart4 + wedgeSize4;
+      var angleStop5 = angleStart5 + wedgeSize5;
+
+      arc(centerXDogIC, centerYDogIC, outerRadius, outerRadius, angleStart1, angleStop1);
+      arc(centerXDogIC, centerYDogIC, outerRadius, outerRadius, angleStart2, angleStop2);
+      arc(centerXDogIC, centerYDogIC, outerRadius, outerRadius, angleStart3, angleStop3);
+      arc(centerXDogIC, centerYDogIC, outerRadius, outerRadius, angleStart4, angleStop4);
+      arc(centerXDogIC, centerYDogIC, outerRadius, outerRadius, angleStart5, angleStop5);
+
+      angleStart1 = angleStop5;
+      angleStart2 = angleStop1;
+      angleStart3 = angleStop2;
+      angleStart4 = angleStop3;
+      angleStart5 = angleStop4;
+    }
+
+    fill(252, 249, 244);
+  ellipse(centerXDogIC, centerYIC, innerRadius, innerRadius);
+
+}
+
+function donutDogs(){
+    //donut chart
+    //outcome
+
+    noStroke();
+  ellipseMode(RADIUS);
+  var angleStart1 = -HALF_PI;
+  var angleStart2 = -HALF_PI;
+  var angleStart3 = -HALF_PI;
+  var angleStart4 = -HALF_PI;
+  var angleStart5 = -HALF_PI;
+  var angleStart6 = -HALF_PI;
+  var angleStart7 = -HALF_PI;
+  for (var c = 0; c < 7; c++) {
+    fill(donutColors[c].colorPalette);
+    var wedgeSize1 = map(adoptionDog, 0, dogNum, 0, TAU);
+    var wedgeSize2 = map(diedDog, 0, dogNum, 0, TAU);
+    var wedgeSize3 = map(disposalDog, 0, dogNum, 0, TAU);
+    var wedgeSize4 = map(euthanizedDog, 0, dogNum, 0, TAU);
+    var wedgeSize5 = map(returnedDog, 0, dogNum, 0, TAU);
+    var wedgeSize6 = map(rtosDog, 0, dogNum, 0, TAU);
+    var wedgeSize7 = map(transferredDog, 0, dogNum, 0, TAU);
+    var angleStop1 = angleStart1 + wedgeSize1;
+    var angleStop2 = angleStart2 + wedgeSize2;
+    var angleStop3 = angleStart3 + wedgeSize3;
+    var angleStop4 = angleStart4 + wedgeSize4;
+    var angleStop5 = angleStart5 + wedgeSize5;
+    var angleStop6 = angleStart6 + wedgeSize6;
+    var angleStop7 = angleStart7 + wedgeSize7;
+    arc(centerXDog, centerYDog, outerRadius, outerRadius, angleStart1, angleStop1);
+    arc(centerXDog, centerYDog, outerRadius, outerRadius, angleStart2, angleStop2);
+    arc(centerXDog, centerYDog, outerRadius, outerRadius, angleStart3, angleStop3);
+    arc(centerXDog, centerYDog, outerRadius, outerRadius, angleStart4, angleStop4);
+    arc(centerXDog, centerYDog, outerRadius, outerRadius, angleStart5, angleStop5);
+    arc(centerXDog, centerYDog, outerRadius, outerRadius, angleStart6, angleStop6);
+    arc(centerXDog, centerYDog, outerRadius, outerRadius, angleStart7, angleStop7);
+    angleStart1 = angleStop7;
+    angleStart2 = angleStop1;
+    angleStart3 = angleStop2;
+    angleStart4 = angleStop3;
+    angleStart5 = angleStop4;
+    angleStart6 = angleStop5;
+    angleStart7 = angleStop6;
+
+  }
+  // knock a hole out of the middle
+  fill(252, 249, 244);
+  ellipse(centerXDog, centerYDog, innerRadius, innerRadius);
+}
+
+
 
