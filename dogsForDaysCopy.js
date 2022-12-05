@@ -24,12 +24,12 @@ class dogStat{
         noStroke();
         ellipseMode(RADIUS);
         var angleStart1 = -HALF_PI;
-        var angleStart2 = -HALF_PI;
-        var angleStart3 = -HALF_PI;
-        var angleStart4 = -HALF_PI;
-        var angleStart5 = -HALF_PI;
-        var angleStart6 = -HALF_PI;
-        var angleStart7 = -HALF_PI;
+        var angleStart2;
+        var angleStart3;
+        var angleStart4;
+        var angleStart5;
+        var angleStart6;
+        var angleStart7;
         for (var c = 0; c < 7; c++) {
             fill(donutColors[c].colorPalette);
             var wedgeSize1 = map(this.adoption, 0, this.number, 0, TAU);
@@ -68,10 +68,10 @@ class dogStat{
         noStroke();
         ellipseMode(RADIUS);
         var angleStart1 = -HALF_PI;
-        var angleStart2 = -HALF_PI;
-        var angleStart3 = -HALF_PI;
-        var angleStart4 = -HALF_PI;
-        var angleStart5 = -HALF_PI;
+        var angleStart2;
+        var angleStart3;
+        var angleStart4;
+        var angleStart5;
     
         for (var c = 0; c < 5; c++) {
           fill(donutColors[c].colorPalette);
@@ -106,6 +106,7 @@ class dogStat{
         fill(53, 58, 52);
         textSize(16);
         textFont(centuryGothic);
+        textAlign(CENTER);
         text(this.breed, 750, 420, 114, 80);
         text(this.breed, 750, 785, 114, 80);
         textFont(centuryGothicBold);
@@ -115,6 +116,23 @@ class dogStat{
     }
 
     drawBar(){
+         //legend for bar
+         fill(232, 215, 205);
+         rect(224, 365, 20, 20);
+         fill(53, 58, 52);
+         textSize(12);
+         textAlign(LEFT);
+         textFont(centuryGothic);
+         text("Dogs in the shelter", 250, 365, 150, 25);
+ 
+         fill(208, 164, 125);
+         rect(224, 390, 20, 20);
+         fill(53, 58, 52);
+         textSize(12);
+         textAlign(LEFT);
+         textFont(centuryGothic);
+         text(this.breed, 250, 390, 150, 25);
+
         if(dogNum>this.number){
             fill(232, 215, 205);
             rect(361, 893-(dogNum), 68, dogNum);
@@ -182,6 +200,7 @@ class dogStat{
         text("Learn More", 1410, 830, 120, 25);
         image(arrow, 1544, 833, 57, 22);
 
+
         if(statPage == 'German Shepard'){
             image(germ, 204, 284, 650, 472);
         }
@@ -237,6 +256,9 @@ class dogStat{
         textFont(centuryGothicBold);
         text("Learn More", 1410, 830, 120, 25);
         image(arrow, 1544, 833, 57, 22);
+
+        text("Go Back", 265, 830, 120, 25);
+        image(backArrow, 204, 833, 57, 22);
 
         if(statPage == 'German Shepard'){
             image(germ, 204, 284, 650, 472);
@@ -302,6 +324,9 @@ class dogStat{
         textFont(centuryGothicBold);
         text("Learn More", 1410, 830, 120, 25);
         image(arrow, 1544, 833, 57, 22);
+
+        text("Go Back", 265, 830, 120, 25);
+        image(backArrow, 204, 833, 57, 22);
 
         if(statPage == 'German Shepard'){
             image(germ, 204, 284, 650, 472);
@@ -381,6 +406,9 @@ class dogStat{
         text("Learn More About Other " + bone1.breed + " In The Shelter", 1226, 820, 300, 50);
         image(arrow, 1544, 833, 57, 22);
 
+        text("Go Back", 265, 830, 120, 25);
+        image(backArrow, 204, 833, 57, 22);
+
         if(statPage == 'German Shepard'){
             image(germ, 204, 284, 650, 472);
         }
@@ -424,6 +452,126 @@ class dogStat{
             image(pom, 204, 284, 650, 650);
         }
     }
+    hoverChartPage(){
+        if(stage == 3 && mouseX> 224 && mouseX<292 && mouseY>(893-(dogDaysAvg*10)) && mouseY<893){
+            textAlign(LEFT);
+            fill(255);
+            rect(224, 265, 200, 100);
+            fill(0);
+            textSize(16);
+            textFont(centuryGothic);
+            text("Dogs in the shelter: " + round(dogDaysAvg), 230, 295, 300, 20);
+            text(this.breed + ": " + round(this.avgDays), 230, 315, 300, 20);
+            
+        }
+        else if(stage == 3 && mouseX>361 && mouseX<429 && mouseY>(893-dogNum) && mouseY<893){
+            textAlign(LEFT);
+            fill(255);
+            rect(361, 265, 200, 100);
+            fill(0);
+            textSize(16);
+            textFont(centuryGothic);
+            text("Dogs in the shelter: " + round(dogNum), 367, 295, 300, 20);
+            text(this.breed + ": " + round(this.number), 367, 315, 300, 20);
+        }
+        else if(stage == 3 && mouseX>496 && mouseX<564 && mouseY>(893-dogAvgSize*30) && mouseY<893){
+            textAlign(LEFT);
+            fill(255);
+            rect(496, 265, 250, 100);
+            fill(0);
+            textSize(16);
+            textFont(centuryGothic);
+
+            if(round(dogAvgSize) == 1){
+                avgDogSize = "Toy";
+            }
+            else if(round(dogAvgSize) == 2){
+                avgDogSize = "Puppy";
+            }else if(round(dogAvgSize) == 3){
+                avgDogSize = "Small";
+            } 
+            else if(round(dogAvgSize) == 4){
+                avgDogSize = "Medium";
+            }else if(round(dogAvgSize) == 5){
+                avgDogSize = "Large";
+            }  
+            
+            if(round(this.avgSize) == 1){
+                thisDogSize = "Toy";
+            }
+            else if(round(this.avgSize) == 2){
+                thisDogSize = "Puppy";
+            }else if(round(this.avgSize) == 3){
+                thisDogSize = "Small";
+            } 
+            else if(round(this.avgSize) == 4){
+                thisDogSize = "Medium";
+            }else if(round(this.avgSize) == 5){
+                thisDogSize = "Large";
+            }
+
+            text("Dogs in the shelter: " + avgDogSize, 502, 295, 250, 20);
+            text(this.breed + ": " + thisDogSize, 502, 315, 250, 20);  
+            
+        }
+
+        else if(mouseX>704 && mouseX<904 && mouseY>340 && mouseY<540){
+            fill(255);
+            rect(904, 400, 120, 140);
+            fill(53, 58, 52);
+            textSize(12);
+            textFont(centuryGothic);
+            textAlign(LEFT);
+            text("Adopted: " + this.adoption, 915, 400, 120, 20);
+            text("Died: " + this.died, 915, 420, 120, 20);
+            text("Disposed: " + this.disposal, 915, 440, 120, 20);
+            text("Euthanized: " + this.euthanized, 915, 460, 120, 20);
+            text("Returned: " + this.returned, 915, 480, 120, 20);
+            text("RTOS: " + this.rtos, 915, 500, 120, 20);
+            text("Transferred: " + this.transferred, 915, 520, 120, 20);
+        }
+        else if(mouseX>1245 && mouseX<1445 && mouseY>340 && mouseY<540){
+            fill(255);
+            rect(1445, 400, 120, 140);
+            fill(53, 58, 52);
+            textSize(12);
+            textFont(centuryGothic);
+            textAlign(LEFT);
+            text("Adopted: " + adoptionDog, 1455, 400, 120, 20);
+            text("Died: " + diedDog, 1455, 420, 120, 20);
+            text("Disposed: " + disposalDog, 1455, 440, 120, 20);
+            text("Euthanized: " + euthanizedDog, 1455, 460, 120, 20);
+            text("Returned: " + returnedDog, 1455, 480, 120, 20);
+            text("RTOS: " + rtosDog, 1455, 500, 120, 20);
+            text("Transferred: " + transferredDog, 1455, 520, 120, 20);
+        }
+        else if(mouseX>704 && mouseX<904 && mouseY>700 && mouseY<900){
+            fill(255);
+            rect(904, 800, 120, 100);
+            fill(53, 58, 52);
+            textSize(12);
+            textFont(centuryGothic);
+            textAlign(LEFT);
+            text("Healthy: " + this.healthy, 915, 800, 120, 20);
+            text("Manageable: " + this.manageable, 915, 820, 120, 20);
+            text("Rehab: " + this.rehab, 915, 840, 120, 20);
+            text("Unknown: " + this.unknown, 915, 860, 120, 20);
+            text("Untreatable: " + this.untreatable, 915, 880, 120, 20);
+        }
+        else if(mouseX>1245 && mouseX<1445 && mouseY>700 && mouseY<900){
+            fill(255);
+            rect(1455, 800, 120, 100);
+            fill(53, 58, 52);
+            textSize(12);
+            textFont(centuryGothic);
+            textAlign(LEFT);
+            text("Healthy: " + healthyDog, 1455, 800, 120, 20);
+            text("Manageable: " + manageableDog, 1455, 820, 120, 20);
+            text("Rehab: " + rehabDog, 1455, 840, 120, 20);
+            text("Unknown: " + unknownDog, 1455, 860, 120, 20);
+            text("Untreatable: " + untreatableDog, 1455, 880, 120, 20);
+        }
+    }
 
 }
 
@@ -433,7 +581,7 @@ var dogDict = {};
 
 var dogInfoDict = {};
 
-var logo, arrow, boneB, boneY, boneP, boneG, boneDG, boneBFill, boneGFill, boneDGFill, bonePFill, boneYFill;
+var logo, arrow, boneB, boneY, boneP, boneG, boneDG, boneBFill, boneGFill, boneDGFill, bonePFill, boneYFill, backArrow;
 var germ, aHusky, borderCollie, chi, greatP, parson, pitbull, pom, poodle, rott, shihTzu, sib, york, lab;
 var centuryGothic, centuryGothicBold;
 var stage = 2;
@@ -495,6 +643,9 @@ const centerYDogIC = 803;
 
 var bone1, bone2, bone3, bone4, bone5, bone6;
 
+var avgDogSize = "";
+var thisDogSize = "";
+
 var donutColors = [
     {'colorPalette' : '#a3a598'},
     {'colorPalette' : '#353a34'},
@@ -512,6 +663,7 @@ function preload(){
     centuryGothic = loadFont("GOTHIC.TTF");
     centuryGothicBold = loadFont("GOTHICB.TTF");
     arrow = loadImage("arrow.png");
+    backArrow = loadImage("backArrow.png");
     boneB = loadImage("boneBlue.png");
     boneBFill = loadImage("boneBFill.png");
     boneY = loadImage("boneYellow.png");
@@ -650,6 +802,7 @@ function draw(){
         text("# of dogs", 338, 918, 114, 80);
         text("Size", 472, 918, 114, 50);
 
+
         //Bar Chart
         dogDict[statPage].drawBar();
 
@@ -669,13 +822,13 @@ function draw(){
         //outcome type text
         textAlign(LEFT);
         textSize(12);
-        text("Disposed", 1070, 400, 100, 20);
-        text("RTOS", 1070, 420, 100, 20);
-        text("Euthanized", 1070, 440, 100, 20);
-        text("Transfered", 1070, 460, 100, 20);
-        text("Died", 1070, 480, 100, 20);
-        text("Adopted", 1070, 500, 100, 20);
-        text("Returned", 1070, 520, 100, 20);
+        text("Adopted", 1070, 400, 100, 20);
+        text("Died", 1070, 420, 100, 20);
+        text("Disposed", 1070, 440, 100, 20);
+        text("Euthanized", 1070, 460, 100, 20);
+        text("Returned", 1070, 480, 100, 20);
+        text("RTOS", 1070, 500, 100, 20);
+        text("Transferred", 1070, 520, 100, 20);
 
         //income condition text
         textAlign(LEFT);
@@ -726,6 +879,9 @@ function draw(){
         textAlign(CENTER);
         text("Learn More", 1544, 576, 120, 25);
         image(arrow, 1572, 615, 57, 22);
+
+        dogDict[statPage].hoverChartPage();
+
 
     }
 
@@ -816,18 +972,27 @@ function mouseClicked(){
         stage = 2;
     }
     //dog story 1
-    else if(stage == 5 && mouseX>1544 && mouseX<1601 && mouseY>833 && mouseY<855){
+    else if(stage == 5 && mouseX>871 && mouseX<1601 && mouseY>833 && mouseY<855){
         stage = 6;
     } 
-    else if(stage == 6 && mouseX>1544 && mouseX<1601 && mouseY>833 && mouseY<855){
+    else if(stage == 6 && mouseX>871 && mouseX<1601 && mouseY>833 && mouseY<855){
         stage = 7;
+    }
+    else if(stage == 6 && mouseX>204 && mouseX<385 && mouseY>833 && mouseY<855){
+        stage = 5;
     } 
-    else if(stage == 7 && mouseX>1544 && mouseX<1601 && mouseY>833 && mouseY<855){
+    else if(stage == 7 && mouseX>871 && mouseX<1601 && mouseY>833 && mouseY<855){
         stage = 8;
     } 
-    else if(stage == 8 && mouseX>1544 && mouseX<1601 && mouseY>833 && mouseY<855){
+    else if(stage == 7 && mouseX>204 && mouseX<385 && mouseY>833 && mouseY<855){
+        stage = 6;
+    } 
+    else if(stage == 8 && mouseX>1226 && mouseX<1601 && mouseY>833 && mouseY<855){
         stage = 4;
     }
+    else if(stage == 8 && mouseX>204 && mouseX<385 && mouseY>833 && mouseY<855){
+        stage = 7;
+    } 
     //Chihuahua
     else if(stage == 2 && mouseX>dogDict['Chihuahua'].avgDays*40 && mouseX<((dogDict['Chihuahua'].avgDays*40)+(11.6*dogDict['Chihuahua'].avgSize)) && mouseY>(750-(5*dogDict['Chihuahua'].number)) && mouseY<((750-(5*dogDict['Chihuahua'].number))+(10*dogDict['Chihuahua'].avgSize))){
         statPage = 'Chihuahua';
@@ -898,7 +1063,7 @@ function mouseClicked(){
         statPage = 'Parson Russell Terrier';
         stage = 3;
     }
-    else if(stage == 3 && mouseX>1572 && mouseX<1629 && mouseY>615 && mouseY<637){
+    else if(stage == 3 && mouseX>1544 && mouseX<1664 && mouseY>576 && mouseY<637){
         stage = 4;
     }
     else if(stage == 4 && mouseX>473 && mouseX<721 && mouseY>364 && mouseY<612){
@@ -1579,6 +1744,7 @@ function countDog(){
 
 
 
+
     
     
 
@@ -1589,10 +1755,11 @@ function donutDogIC(){
     noStroke();
     ellipseMode(RADIUS);
     var angleStart1 = -HALF_PI;
-    var angleStart2 = -HALF_PI;
-    var angleStart3 = -HALF_PI;
-    var angleStart4 = -HALF_PI;
-    var angleStart5 = -HALF_PI;
+    var angleStart2;
+    var angleStart3;
+    var angleStart4;
+    var angleStart5;
+       
 
     for (var c = 0; c < 5; c++) {
       fill(donutColors[c].colorPalette);
@@ -1633,12 +1800,13 @@ function donutDogs(){
     noStroke();
   ellipseMode(RADIUS);
   var angleStart1 = -HALF_PI;
-  var angleStart2 = -HALF_PI;
-  var angleStart3 = -HALF_PI;
-  var angleStart4 = -HALF_PI;
-  var angleStart5 = -HALF_PI;
-  var angleStart6 = -HALF_PI;
-  var angleStart7 = -HALF_PI;
+  var angleStart2;
+  var angleStart3;
+  var angleStart4;
+  var angleStart5;
+  var angleStart6;
+  var angleStart7;
+  
   for (var c = 0; c < 7; c++) {
     fill(donutColors[c].colorPalette);
     var wedgeSize1 = map(adoptionDog, 0, dogNum, 0, TAU);
@@ -1719,6 +1887,9 @@ function createHover(){
         if(dogDict['German Shepard'].avgSize>4 && dogDict['German Shepard'].avgSize<5){
             var averageSize = String("Medium - Large");
         }
+        if(dogDict['German Shepard'].avgSize>5){
+            var averageSize = String("Large");
+        }
         text("Breed: German Shepard", dogDict['German Shepard'].avgDays*40, (750-(5*dogDict['German Shepard'].number)-90), 200, 20)
         text("Size of dog: " + averageSize, dogDict['German Shepard'].avgDays*40, (750-(5*dogDict['German Shepard'].number)-70), 200, 20);
         text("Days in shelter: " + round(dogDict['German Shepard'].avgDays), dogDict['German Shepard'].avgDays*40, (750-(5*dogDict['German Shepard'].number)-50), 200, 20);
@@ -1764,6 +1935,9 @@ function createHover(){
         }
         if(dogDict['Great Pyrenesse'].avgSize>4 && dogDict['Great Pyrenesse'].avgSize<5){
             var averageSize = String("Medium - Large");
+        }
+        if(dogDict['Great Pyrenesse'].avgSize>5){
+            var averageSize = String("Large");
         }
         text("Breed: Great Pyrenesse", dogDict['Great Pyrenesse'].avgDays*40, (750-(5*dogDict['Great Pyrenesse'].number)-90), 200, 20)
         text("Size of dog: " + averageSize, dogDict['Great Pyrenesse'].avgDays*40, (750-(5*dogDict['Great Pyrenesse'].number)-70), 200, 20);
@@ -2005,6 +2179,20 @@ function createHover(){
 
     
 }
+
+// function hoverChartPage(){
+//     if(stage == 3 && mouseX> 224 && mouseX<292 && mouseY>(893-(dogDaysAvg*10)) && mouseY<893){
+//         textAlign(LEFT);
+//         fill(255);
+//         rect(224, 265, 300, 100);
+//         fill(0);
+//         textSize(16);
+//         text("Dogs in the shelter: " + dogDaysAvg, 224, 275, 300, 20);
+//         text("German Shepard: " + dogDict['German Shepard'].avgDays, 224, 295, 300, 20);
+//         console.log(dogDaysAvg);
+
+//     }
+// }
 
 
 
